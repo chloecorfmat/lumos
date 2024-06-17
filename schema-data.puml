@@ -1,0 +1,64 @@
+@startuml
+class Audit {
+    + date : DATE 
+    + site : VARCHAR
+    + auditTypeId : INTEGER
+}
+
+class AuditType {
+    + name : VARCHAR
+    + document : VARCHAR
+}
+
+class Criteria {
+    + criteria : VARCHAR
+}
+
+class Test {
+    + criteriaId : INTEGER
+    + test : VARCHAR
+    + tools : ENUM
+}
+
+class Page {
+    + auditId : INTEGER
+    + name : VARCHAR
+    + position : INTEGER
+    + url : VARCHAR
+    + comment : VARCHAR
+}
+
+class User {
+    + username : VARCHAR
+    + password : PASSWORD
+    + email : VARCHAR
+    + role : ENUM
+}
+
+Audit "*" -- "1" AuditType : Est
+Criteria "*" -- "1..*" AuditType : Compose
+Criteria "1" -- "1..*" Test : Vérifie
+Audit "1" -- "*" Page : Est réalisé sur
+Page "*" -- "*" Criteria : Teste
+
+(Page, Criteria) *.. Control
+
+class Control {
+    + critereId : INTEGER
+    + pageId : INTEGER
+    + type: ENUM
+    + status : LIST
+    + impact : ENUM
+    + derogation : BOOLEAN
+    + derogationComment : TEXT
+    + comment : TEXT
+}
+
+(User, Audit) *.. AuditUser
+
+class AuditUser {
+    + auditId : INTEGER
+    + userId : INTEGER
+    + auditRole : ENUM
+}
+@enduml

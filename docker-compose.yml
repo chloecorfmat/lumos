@@ -1,0 +1,17 @@
+version: '3.5'
+
+services:
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=lumos
+      - POSTGRES_USER=lumos
+      - POSTGRES_DB=lumos
+    container_name: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+volumes:
+  pgdata:
