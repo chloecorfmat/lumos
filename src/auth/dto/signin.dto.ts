@@ -1,6 +1,5 @@
-import { IsArray, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Role } from '../../users/enums/role.enum';
 
 export class SignInDto {
   @ApiProperty({
