@@ -1,28 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { CreateUserDto } from './dto/createUser.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { hashPassword } from '../utils/hash.util';
+import { UpdateUserDto } from "./dto/updateUser.dto";
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      id: 1,
-      username: 'chloe',
-      email: 'che@che.fr',
-      password: 'pass;1234',
-      roles: ['admin'],
-    },
-    {
-      id: 2,
-      username: 'customer1',
-      email: 'che@che.fr',
-      password: 'pass;1234',
-      roles: ['admin'],
-    },
-  ];
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
@@ -40,5 +25,19 @@ export class UsersService {
       password: hashedPassword,
     });
     return this.usersRepository.save(newUser);
+  }
+
+  async updateUser(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+    const user = await this.usersRepository.findOne({ where: { id: id } });
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+
+    if (updateUserDto.password) {
+      updateUserDto.password = await hashPassword(updateUserDto.password);
+    }
+
+    const updatedUser = Object.assign(user, updateUserDto);
+    return this.usersRepository.save(updatedUser);
   }
 }
