@@ -1,6 +1,6 @@
 import { IsArray, IsOptional, IsString, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { RolesAllowed } from '../decorators/rolesAllowed.decorator';
+import { RolesAllowed } from '../decorators/roles-allowed.decorator';
 import { Role } from '../enums/role.enum';
 
 export class UpdateUserDto {

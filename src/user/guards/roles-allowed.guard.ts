@@ -1,10 +1,10 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { UpdateUserDto } from '../dto/updateUser.dto';
-import { ROLES_ALLOWED_KEY } from '../decorators/rolesAllowed.decorator';
+import { UpdateUserDto } from '../dto/update-user.dto';
+import { ROLES_ALLOWED_KEY } from '../decorators/roles-allowed.decorator';
 
 @Injectable()
-export class RolesALlowedGuard implements CanActivate {
+export class RolesAllowedGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {

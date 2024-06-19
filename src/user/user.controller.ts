@@ -6,29 +6,29 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/createUser.dto';
-import { UpdateUserDto } from './dto/updateUser.dto';
+import { UserService } from './user.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Roles } from './decorators/roles.decorator';
 import { Role } from './enums/role.enum';
-import { User } from './user.entity';
-import { RolesALlowedGuard } from './guards/rolesAllowed.guard';
+import { User } from './entities/user.entity';
+import { RolesAllowedGuard } from './guards/roles-allowed.guard';
 
 @Controller('users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+export class UserController {
+  constructor(private readonly usersService: UserService) {}
   @Post()
   @ApiBearerAuth()
   @Roles(Role.Admin)
   async createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return this.usersService.createUser(createUserDto);
+    return this.usersService.create(createUserDto);
   }
   @Patch(':id')
   @ApiBearerAuth()
   @Roles(Role.Admin)
-  @UseGuards(RolesALlowedGuard)
+  @UseGuards(RolesAllowedGuard)
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.updateUser(+id, updateUserDto);
+    return this.usersService.update(+id, updateUserDto);
   }
 }

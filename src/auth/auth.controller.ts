@@ -11,8 +11,8 @@ import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import { SignInDto } from './dto/signin.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { Roles } from '../users/decorators/roles.decorator';
-import { Role } from '../users/enums/role.enum';
+import { Roles } from '../user/decorators/roles.decorator';
+import { Role } from '../user/enums/role.enum';
 
 @Controller('auth')
 export class AuthController {
@@ -22,7 +22,6 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() signInDto: SignInDto) {
-    console.log(signInDto);
     return this.authService.signIn(signInDto.username, signInDto.password);
   }
 

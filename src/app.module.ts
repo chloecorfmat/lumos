@@ -2,21 +2,23 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
+import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { TypeOrmConfigService } from './typeorm.config';
 import { APP_GUARD } from '@nestjs/core';
-import { RolesGuard } from './users/guards/roles.guard';
+import { RolesGuard } from './user/guards/roles.guard';
 import { AuthGuard } from './auth/auth.guards';
+import { AuditTypeModule } from './audit-type/audit-type.module';
 
 @Module({
   imports: [
     AuthModule,
-    UsersModule,
+    UserModule,
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService,
     }),
+    AuditTypeModule,
   ],
   controllers: [AppController],
   providers: [
